@@ -56,25 +56,9 @@ export default function reducer(state = initialState, action) {
           {
             ...action.payload.expense,
             id: action.payload.expensesLength + 1,
+            date: action.payload.date
           },
         ],
-      };
-    case "expense/edit/started":
-      return {
-        ...state,
-        editing: true,
-      };
-    case "expense/edit/succeed":
-      return {
-        ...state,
-        editing: false,
-        items: state.items.map((item) => {
-          if (item.id === action.payload.id) {
-            return action.payload;
-          }
-
-          return item;
-        }),
       };
     default:
       return state;
@@ -139,7 +123,7 @@ export const deleteExpense = (id) => {
   };
 };
 
-export const copyExpense = (expense, expensesLength) => {
+export const copyExpense = (expense, expensesLength, date) => {
   return (dispatch) => {
     dispatch({ type: "expense/copy/started" });
 
@@ -152,6 +136,7 @@ export const copyExpense = (expense, expensesLength) => {
       body: JSON.stringify({
         ...expense,
         id: expensesLength + 1,
+        date
       }),
     })
       .then((res) => res.json())
@@ -161,32 +146,8 @@ export const copyExpense = (expense, expensesLength) => {
           payload: {
             expense,
             expensesLength,
+            date
           },
-        });
-      });
-  };
-};
-
-export const editExpense = (id, sum, comment, category) => {
-  return (dispatch) => {
-    dispatch({ type: "expense/edit/started" });
-
-    fetch(`http://localhost:3010/expenses/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        sum,
-        comment,
-        category,
-      }),
-    })
-      .then((res) => res.json())
-      .then((expense) => {
-        dispatch({
-          type: "expense/edit/succeed",
-          payload: expense,
         });
       });
   };

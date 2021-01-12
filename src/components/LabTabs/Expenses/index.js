@@ -16,8 +16,9 @@ import { loadExpenses } from "../../../redux/features/expenses";
 import { useDispatch, useSelector } from "react-redux";
 import PreloaderToTable from "./PreloaderToTable";
 import ComponentTextFields from "./ComponentTextFields";
+import { Container } from '@material-ui/core'
 
-const StyledTableCell = withStyles((theme) => ({
+const StyledTableCell = withStyles(() => ({
   head: {
     backgroundColor: "#242f74",
     color: "#fff",
@@ -69,7 +70,7 @@ const Expenses = () => {
   };
 
   return (
-    <>
+    <Container maxWidth='md'>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="customized table">
           <TableHead>
@@ -110,7 +111,7 @@ const Expenses = () => {
           </Fab>
         </Box>
       )}
-    </>
+    </Container>
   );
 };
 

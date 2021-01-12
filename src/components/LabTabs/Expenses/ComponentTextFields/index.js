@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   formControl: {
-    flexGrow: 2,
+    flexGrow: 6,
     transform: "translateY(-12px)",
     marginRight: "15px",
   },
@@ -82,17 +82,6 @@ const ComponentTextFields = ({ handleShowTextFields, showTextFields }) => {
 
   return (
     <form className={classes.formStyles}>
-      <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="age-native-simple">Выберите категорию</InputLabel>
-        <Select native value={category} onChange={handleChangeCategory}>
-          <option aria-label="Выберите категорию" value="" />
-          {categories.map((category) => (
-            <option value={category.text} key={category.id}>
-              {category.text}
-            </option>
-          ))}
-        </Select>
-      </FormControl>
       <TextField
         className={classes.textFieldStyles}
         label="Сумма"
@@ -113,6 +102,17 @@ const ComponentTextFields = ({ handleShowTextFields, showTextFields }) => {
         size="small"
         autoComplete="off"
       />
+      <FormControl className={classes.formControl}>
+        <InputLabel htmlFor="age-native-simple">Выберите категорию</InputLabel>
+        <Select native value={category} onChange={handleChangeCategory}>
+          <option aria-label="Выберите категорию" value="" />
+          {categories.map((category) => (
+            <option value={category.text} key={category.id}>
+              {category.text}
+            </option>
+          ))}
+        </Select>
+      </FormControl>
       <Button
         className={classes.buttonStyles}
         variant="contained"
