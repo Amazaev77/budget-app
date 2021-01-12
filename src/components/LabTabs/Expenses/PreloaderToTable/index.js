@@ -6,47 +6,45 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import { makeStyles } from "@material-ui/core";
+import TableCell from '@material-ui/core/TableCell'
 
 const useStyles = makeStyles(() => ({
-  margin: {
-    marginRight: "5px",
-    marginLeft: "5px",
-  },
+  tdChild: {
+    width: '132px'
+  }
 }));
 
-const PreloaderToTable = ({ StyledTableCell }) => {
+const PreloaderToTable = () => {
   const classes = useStyles();
 
   return (
     <TableRow>
-      <StyledTableCell>
-        {" "}
-        <Skeleton width={150} height={20} />{" "}
-      </StyledTableCell>
-      <StyledTableCell>
-        {" "}
-        <Skeleton width={150} height={20} />{" "}
-      </StyledTableCell>
-      <StyledTableCell>
-        {" "}
-        <Skeleton width={150} height={20} />{" "}
-      </StyledTableCell>
-      <StyledTableCell>
-        <IconButton disabled aria-label="delete">
-          <EditIcon />
-        </IconButton>
-        <IconButton
-          disabled
-          className={classes.margin}
-          color="secondary"
-          aria-label="delete"
-        >
-          <DeleteIcon />
-        </IconButton>
-        <IconButton disabled aria-label="delete">
-          <FileCopyIcon />
-        </IconButton>
-      </StyledTableCell>
+      <TableCell>
+        <div className={classes.tdChild}><Skeleton width={132} height={20} /></div>
+      </TableCell>
+      <TableCell>
+        <div className={classes.tdChild}><Skeleton width={132} height={20} /></div>
+      </TableCell>
+      <TableCell>
+        <div className={classes.tdChild}><Skeleton width={132} height={20} /></div>
+      </TableCell>
+      <TableCell>
+        <div>
+          <IconButton disabled aria-label="delete">
+            <EditIcon />
+          </IconButton>
+          <IconButton
+            disabled
+            color="secondary"
+            aria-label="delete"
+          >
+            <DeleteIcon />
+          </IconButton>
+          <IconButton disabled aria-label="delete">
+            <FileCopyIcon />
+          </IconButton>
+        </div>
+      </TableCell>
     </TableRow>
   );
 };

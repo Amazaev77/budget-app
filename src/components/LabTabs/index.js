@@ -95,9 +95,7 @@ export default function LabTabs() {
         </TabList>
       </AppBar>
       <TabPanel value="1">
-        <Container maxWidth="lg">
           <Expenses />
-        </Container>
       </TabPanel>
       <TabPanel value="2">
         <Categories />
