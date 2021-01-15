@@ -1,78 +1,76 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core";
-import { useSelector } from 'react-redux'
-import moment from 'moment'
+import { useSelector } from "react-redux";
+import moment from "moment";
+import Statistic from "./Statistic";
+import { Box, makeStyles, Typography } from "@material-ui/core";
 
-const useStyles = makeStyles(() => ({
-  gridItemChildren: {
-    backgroundColor: "#1b276c",
-    color: "white",
-    fontSize: "18px",
-    padding: "15px 0",
-    borderRadius: "4px 4px 0 0",
+const useStyles = makeStyles((theme) => ({
+  body1: {
+    paddingTop: theme.spacing(1.8),
+    paddingBottom: theme.spacing(1.8),
   },
-  gridItem: {
-    "& div:last-child": {
-      fontSize: "21px",
-      color: "#101a51",
-      border: "1px solid #1b276c",
-      borderRadius: "0 0 4px 4px",
-      padding: "25px 0",
-    },
-    spentMonthBox: {
-      fontSize: "18px",
-    },
+  h5: {
+    backgroundColor: theme.palette.primary.dark,
+    color: theme.palette.common.white,
+    borderRadius: "4px",
   },
 }));
 
-const ExpenseStatistics = ({ children }) => {
+const Statistics = () => {
   const classes = useStyles();
 
   const expenses = useSelector((state) => state.expenses.items);
 
   const monthlyExpenses = expenses.reduce((accum, expense) => {
-    if (moment(expense.date).format('MMMM') === moment().format('MMMM') ) {
-      accum += expense.sum
+    if (moment(expense.date).format("MMMM") === moment().format("MMMM")) {
+      accum += expense.sum;
     }
 
-    return accum
-  }, 0)
+    return accum;
+  }, 0);
 
   const allExpenses = expenses.reduce((accum, expense) => {
-    accum += expense.sum
+    accum += expense.sum;
+
     return accum;
-  }, 0)
+  }, 0);
 
   return (
     <>
       <Grid container direction="row" justify="center" spacing={2}>
-        <Grid
-          className={classes.gridItem}
-          align="center"
-          item
-          md={3}
-          xs={12}
-          sm={5}
-        >
-          <div className={classes.gridItemChildren}>расходы за месяц</div>
-          <div>{monthlyExpenses} рублей</div>
+        <Grid align="center" item md={3} xs={12} sm={5}>
+          <Typography
+            variant="h5"
+            className={`${classes.body1} ${classes.h5}`}
+            border={1}
+          >
+            расходы за этот месяц
+          </Typography>
+          <Box border={1} borderRadius="borderRadius">
+            <Typography variant="h6" className={classes.body1}>
+              {monthlyExpenses} рублей
+            </Typography>
+          </Box>
         </Grid>
-        <Grid
-          className={classes.gridItem}
-          align="center"
-          item
-          md={3}
-          xs={12}
-          sm={5}
-        >
-          <div className={classes.gridItemChildren}>расходы за всё время</div>
-          <div>{allExpenses} рублей</div>
+        <Grid align="center" item md={3} xs={12} sm={5}>
+          <Typography
+            variant="h5"
+            className={`${classes.body1} ${classes.h5}`}
+            border={1}
+          >
+            расходы за всё время
+          </Typography>
+          <Box border={1} borderRadius="borderRadius">
+            <Typography variant="h6" className={classes.body1}>
+              {allExpenses} рублей
+            </Typography>
+          </Box>
         </Grid>
       </Grid>
-      {children}
+      <Statistic />
     </>
   );
 };
 
-export default ExpenseStatistics;
+export default Statistics;

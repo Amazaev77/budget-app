@@ -1,43 +1,35 @@
 import React, { useState } from "react";
-import { Container, makeStyles } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
-import Paper from '@material-ui/core/Paper';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Table from '@material-ui/core/Table';
-import withStyles from '@material-ui/core/styles/withStyles';
-import TableCell from '@material-ui/core/TableCell';
-import TableBody from '@material-ui/core/TableBody';
-import PreloaderToTable from '../Expenses/PreloaderToTable';
-import Category from './Category';
-import TextField from '@material-ui/core/TextField';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import { addCategory } from '../../../redux/features/categories';
+import { useDispatch, useSelector } from "react-redux";
+import {
+  TableContainer,
+  TableHead,
+  TableRow,
+  Table,
+  TableCell,
+  TableBody,
+  TextField,
+  Paper,
+  makeStyles,
+  Button,
+  Box,
+} from "@material-ui/core";
+import PreloaderToTable from "../Expenses/PreloaderToTable";
+import Category from "./Category";
+import { addCategory } from "../../../redux/features/categories";
 
-const StyledTableCell = withStyles(() => ({
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 370,
+  },
   head: {
-    backgroundColor: "#242f74",
-    color: "#fff",
+    backgroundColor: theme.palette.primary.dark,
+    color: theme.palette.common.white,
   },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-
-const useStyles = makeStyles(() => ({
-  textField: {
-    flexGrow: 1
-  },
-  button: {
-    marginLeft: '13px'
-  }
 }));
 
 const Categories = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
+  const classes = useStyles();
 
   const categories = useSelector((state) => state.categories.items);
   const loading = useSelector((state) => state.categories.loading);
@@ -49,30 +41,52 @@ const Categories = () => {
   };
 
   const handleAddCategory = () => {
-    dispatch(addCategory(newCategory, categories.length));
-    setNewCategory("");
-  }
+    if (newCategory.trim()) {
+      dispatch(addCategory(newCategory));
+      setNewCategory("");
+    }
+  };
 
   const handleKeyDown = (e) => {
     if (e.keyCode === 13) {
       handleAddCategory();
     }
-  }
+  };
 
   const preloader = new Array(3)
     .fill()
-    .map((_, index) => (
-      <PreloaderToTable key={index} StyledTableCell={StyledTableCell} />
-    ));
+    .map((_, index) => <PreloaderToTable key={index} />);
 
   return (
-    <Container maxWidth='xs'>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="customized table">
+    <Box display="flex" flexDirection="column" alignItems="center">
+      <Box mt={1} mb={2} display="flex">
+        <Box mr={1.5}>
+          <TextField
+            size="small"
+            id="outlined-basic"
+            label="Новая категория"
+            variant="outlined"
+            value={newCategory}
+            onChange={newCategoryHandler}
+            onKeyDown={handleKeyDown}
+            autoComplete="off"
+          />
+        </Box>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleAddCategory}
+        >
+          Добавить
+        </Button>
+      </Box>
+      <TableContainer component={Paper} className={classes.root} elevation={3}>
+        <Table size="small" aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Категории</StyledTableCell>
-              <StyledTableCell />
+              <TableCell align="center" className={classes.head}>
+                Категории
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -83,27 +97,7 @@ const Categories = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Box mt="12px" display="flex">
-        <TextField
-          className={classes.textField}
-          size='small'
-          id="outlined-basic"
-          label="Новая категория"
-          variant="outlined"
-          value={newCategory}
-          onChange={newCategoryHandler}
-          onKeyDown={handleKeyDown}
-        />
-        <Button
-          variant="contained"
-          color="secondary"
-          className={classes.button}
-          onClick={handleAddCategory}
-        >
-          Добавить
-        </Button>
-      </Box>
-    </Container>
+    </Box>
   );
 };
 

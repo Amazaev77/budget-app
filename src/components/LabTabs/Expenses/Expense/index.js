@@ -1,114 +1,67 @@
-import React, { useEffect } from 'react';
-import IconButton from "@material-ui/core/IconButton";
+import React from "react";
+import { IconButton, TableRow, TableCell } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
-import TableRow from "@material-ui/core/TableRow";
-import { makeStyles } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { copyExpense, deleteExpense } from "../../../../redux/features/expenses";
-import TableCell from "@material-ui/core/TableCell";
-import moment from 'moment';
-import 'moment/locale/ru';
+import PropTypes from "prop-types";
+import {
+  copyExpense,
+  deleteExpense,
+} from "../../../../redux/features/expenses";
+import moment from "moment";
+import "moment/locale/ru";
 
-const useStyles = makeStyles(() => ({
-  tableRow: {
-    "& td": {
-      color: "#2a3472",
-    },
-  },
-  colorGreen: {
-    color: "#2ba832",
-  },
-  margin: {
-    marginRight: "5px",
-    marginLeft: "5px",
-  },
-  inputStyles: {
-    maxWidth: "100px",
-    fontSize: "12px",
-  },
-  buttonStyleDefault: {
-    cursor: "none",
-    "&:hover": {
-      backgroundColor: "white",
-    },
-  },
-  width: {
-    width: "48px",
-  },
-  formControl: {
-    width: "100%",
-    "& option": {
-      fontSize: "12px",
-    },
-    transform: "translateY(-9px)",
-  },
-  label: {
-    width: "170px",
-    fontSize: "14px",
-  },
-  select: {
-    fontSize: "12px",
-  },
-  tdChild: {
-    width: '132px'
-  }
-}));
+moment.locale("ru");
 
 const Expense = ({ expense }) => {
-  const classes = useStyles();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    moment.locale('ru')
-  }, [])
+  const category = useSelector((state) =>
+    state.categories.items.find(
+      (category) => expense.categoryId === category.id
+    )
+  );
 
-  const expenses = useSelector((state) => state.expenses.items);
+  const deleting = useSelector((state) => state.expenses.deleting);
+  const copying = useSelector((state) => state.expenses.copying);
 
   const deleteExpenseHandler = () => {
     dispatch(deleteExpense(expense.id));
   };
 
   const handleCopyExpense = () => {
-    dispatch(copyExpense(expense, expenses.length, moment().format()));
+    dispatch(copyExpense(expense, moment().format()));
   };
 
   return (
-    <TableRow className={classes.tableRow}>
+    <TableRow>
+      <TableCell>{category?.text}</TableCell>
+      <TableCell>{expense.sum} руб</TableCell>
+      <TableCell>{moment(expense.date).format("L / LT")}</TableCell>
+      <TableCell>{expense.comment}</TableCell>
       <TableCell>
-        <div className={classes.tdChild}>{expense.category}</div>
-      </TableCell>
-      <TableCell>
-        <div className={classes.tdChild}>{expense.sum}</div>
-      </TableCell>
-      <TableCell>
-        <div className={classes.tdChild}>
-          {moment(expense.date).format('L / LT')}
-        </div>
-      </TableCell>
-      <TableCell>
-        <div className={classes.tdChild}>{expense.comment}</div>
-      </TableCell>
-      <TableCell>
-        <div className={classes.tdChild}>
-          <IconButton
-            className={classes.margin}
-            color="secondary"
-            aria-label="delete"
-            onClick={deleteExpenseHandler}
-          >
-            <DeleteIcon />
-          </IconButton>
-          <IconButton
-            aria-label="delete"
-            onClick={handleCopyExpense}
-          >
-            <FileCopyIcon />
-          </IconButton>
-        </div>
+        <IconButton
+          color="secondary"
+          aria-label="delete"
+          onClick={deleteExpenseHandler}
+          disabled={deleting === expense.id}
+        >
+          <DeleteIcon />
+        </IconButton>
+        <IconButton
+          aria-label="delete"
+          onClick={handleCopyExpense}
+          disabled={copying === expense.id}
+        >
+          <FileCopyIcon />
+        </IconButton>
       </TableCell>
     </TableRow>
   );
+};
+
+Expense.propTypes = {
+  expense: PropTypes.object.isRequired,
 };
 
 export default Expense;

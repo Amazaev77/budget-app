@@ -3,7 +3,7 @@ const initialState = {
   loading: false,
   editing: false,
   adding: false,
-  deleting: false
+  deleting: false,
 };
 
 export default function reducer(state = initialState, action) {
@@ -11,13 +11,13 @@ export default function reducer(state = initialState, action) {
     case "categories/load/started":
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case "categories/load/succeed":
       return {
         ...state,
         loading: false,
-        items: action.payload
+        items: action.payload,
       };
     case "category/add/started":
       return {
@@ -28,10 +28,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         adding: false,
-        items: [
-          ...state.items,
-          action.payload
-        ]
+        items: [...state.items, action.payload],
       };
     case "category/edit/started":
       return {
@@ -50,16 +47,16 @@ export default function reducer(state = initialState, action) {
           return item;
         }),
       };
-    case 'category/delete/started':
+    case "category/delete/started":
       return {
         ...state,
-        deleting: true
-      }
-    case 'category/delete/succeed':
+        deleting: true,
+      };
+    case "category/delete/succeed":
       return {
         ...state,
-        items: state.items.filter(item => item.id !== action.payload)
-      }
+        items: state.items.filter((item) => item.id !== action.payload),
+      };
     default:
       return state;
   }
@@ -80,33 +77,31 @@ export const loadCategories = () => {
   };
 };
 
-export const addCategory = (category, categoriesLength) => {
-  return dispatch => {
-    console.log(category, categoriesLength)
-    dispatch({ type: 'category/add/started' });
-    fetch('http://localhost:3010/categories', {
-      method: 'POST',
+export const addCategory = (category) => {
+  return (dispatch) => {
+    dispatch({ type: "category/add/started" });
+    fetch("http://localhost:3010/categories", {
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        "Content-Type": 'application/json'
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id: categoriesLength + 1,
-        text: category
-      })
+        text: category,
+      }),
     })
-      .then(res => res.json())
-      .then(expense => {
+      .then((res) => res.json())
+      .then((expense) => {
         dispatch({
-          type: 'category/add/succeed',
+          type: "category/add/succeed",
           payload: {
-            id: categoriesLength + 1,
-            text: category
-          }
-        })
-      })
-  }
-}
+            id: expense.id,
+            text: category,
+          },
+        });
+      });
+  };
+};
 
 export const editCategory = (id, category) => {
   return (dispatch) => {
@@ -132,18 +127,18 @@ export const editCategory = (id, category) => {
 };
 
 export const deleteCategory = (id) => {
-  return dispatch => {
-    dispatch({ type: 'category/delete/started' });
+  return (dispatch) => {
+    dispatch({ type: "category/delete/started" });
 
     fetch(`http://localhost:3010/categories/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
     })
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(() => {
         dispatch({
-          type: 'category/delete/succeed',
-          payload: id
+          type: "category/delete/succeed",
+          payload: id,
         });
-      })
-  }
-}
+      });
+  };
+};

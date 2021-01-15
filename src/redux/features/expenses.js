@@ -34,7 +34,7 @@ export default function reducer(state = initialState, action) {
     case "expense/delete/started":
       return {
         ...state,
-        deleting: true,
+        deleting: action.payload,
       };
     case "expense/delete/succeed":
       return {
@@ -45,20 +45,13 @@ export default function reducer(state = initialState, action) {
     case "expense/copy/started":
       return {
         ...state,
-        copying: true,
+        copying: action.payload,
       };
     case "expense/copy/succeed":
       return {
         ...state,
         copying: false,
-        items: [
-          ...state.items,
-          {
-            ...action.payload.expense,
-            id: action.payload.expensesLength + 1,
-            date: action.payload.date
-          },
-        ],
+        items: [...state.items, action.payload],
       };
     default:
       return state;
@@ -79,7 +72,7 @@ export const loadExpenses = () => {
   };
 };
 
-export const addExpense = (category, sum, comment, expensesLength, date) => {
+export const addExpense = (categoryId, sum, comment, date) => {
   return (dispatch) => {
     dispatch({ type: "expense/add/started" });
     fetch("http://localhost:3010/expenses", {
@@ -89,11 +82,10 @@ export const addExpense = (category, sum, comment, expensesLength, date) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        category,
+        categoryId,
         sum,
         comment,
         date,
-        id: expensesLength + 1
       }),
     })
       .then((res) => res.json())
@@ -108,7 +100,10 @@ export const addExpense = (category, sum, comment, expensesLength, date) => {
 
 export const deleteExpense = (id) => {
   return (dispatch) => {
-    dispatch({ type: "expense/delete/started" });
+    dispatch({
+      type: "expense/delete/started",
+      payload: id,
+    });
 
     fetch(`http://localhost:3010/expenses/${id}`, {
       method: "DELETE",
@@ -123,31 +118,30 @@ export const deleteExpense = (id) => {
   };
 };
 
-export const copyExpense = (expense, expensesLength, date) => {
+export const copyExpense = (expense, date) => {
   return (dispatch) => {
-    dispatch({ type: "expense/copy/started" });
-
+    dispatch({
+      type: "expense/copy/started",
+      payload: expense.id,
+    });
     fetch("http://localhost:3010/expenses", {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        ...expense,
-        id: expensesLength + 1,
-        date
+        sum: expense.sum,
+        comment: expense.comment,
+        categoryId: expense.categoryId,
+        date,
       }),
     })
       .then((res) => res.json())
-      .then((expense) => {
+      .then((expenses) => {
         dispatch({
           type: "expense/copy/succeed",
-          payload: {
-            expense,
-            expensesLength,
-            date
-          },
+          payload: expenses,
         });
       });
   };

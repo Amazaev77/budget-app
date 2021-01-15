@@ -1,74 +1,72 @@
 import React, { useState } from "react";
-import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
 import { addExpense } from "../../../../redux/features/expenses";
 import { useDispatch, useSelector } from "react-redux";
 import CancelIcon from "@material-ui/icons/Cancel";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
-import moment from 'moment';
+import moment from "moment";
+import Box from "@material-ui/core/Box";
+import PropTypes from "prop-types";
+import {
+  makeStyles,
+  TextField,
+  Button,
+  FormControl,
+  Select,
+  InputLabel,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  formStyles: {
-    marginTop: theme.spacing(2),
-    display: "flex",
-  },
-  textFieldStyles: {
-    marginRight: theme.spacing(1),
-    flexGrow: 3,
-  },
-  buttonStyles: {
-    flexGrow: 2,
-    maxHeight: "40px",
-    maxWidth: "150px",
-  },
-  cancelIconStyles: {
-    cursor: "pointer",
-    alignSelf: "center",
+  root: {
     flexGrow: 1,
-    marginLeft: "12px",
-    maxHeight: "40px",
-    "&:hover": {
-      color: "#d10c52",
-    },
+    marginRight: theme.spacing(1),
   },
   formControl: {
-    flexGrow: 6,
-    transform: "translateY(-12px)",
-    marginRight: "15px",
+    flexGrow: 2,
+    marginBottom: theme.spacing(2),
+    marginRight: theme.spacing(1),
+  },
+  cancelIcon: {
+    marginLeft: theme.spacing(1),
+    cursor: "pointer",
+    "&:hover": {
+      color: theme.palette.secondary.dark,
+    },
   },
 }));
 
 const ComponentTextFields = ({ handleShowTextFields, showTextFields }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const expenses = useSelector((state) => state.expenses.items);
 
-  const [category, setCategory] = useState("");
+  const dispatch = useDispatch();
+
+  const [categoryId, setCategoryId] = useState("");
   const [sum, setSum] = useState("");
   const [comment, setComment] = useState("");
 
   const categories = useSelector((state) => state.categories.items);
 
   const handleAddExpense = () => {
-    dispatch(addExpense(category, sum, comment, expenses.length, moment().format()));
-    setCategory("");
-    setSum("");
-    setComment("");
-    handleShowTextFields();
+    if (categoryId && sum && comment) {
+      dispatch(addExpense(categoryId, sum, comment, moment().format()));
+      setCategoryId("");
+      setSum("");
+      setComment("");
+      handleShowTextFields();
+    }
   };
 
   const handleChangeCategory = (e) => {
-    setCategory(e.target.value);
+    setCategoryId(parseInt(e.target.value));
   };
 
   const handleChangeSum = (e) => {
-    const value = e.target.value;
+    const value = parseInt(e.target.value);
 
-    if (!isNaN(parseInt(value))) {
-      setSum(parseInt(value));
+    if (!isNaN(value)) {
+      setSum(value);
+    }
+
+    if (!value) {
+      setSum("");
     }
   };
 
@@ -81,11 +79,11 @@ const ComponentTextFields = ({ handleShowTextFields, showTextFields }) => {
   }
 
   return (
-    <form className={classes.formStyles}>
+    <Box mt={1} display="flex" alignItems="center">
       <TextField
-        className={classes.textFieldStyles}
+        className={classes.root}
         label="Сумма"
-        id="outlined-size-small"
+        id="sum-text-field"
         value={sum}
         onChange={handleChangeSum}
         variant="outlined"
@@ -93,9 +91,9 @@ const ComponentTextFields = ({ handleShowTextFields, showTextFields }) => {
         autoComplete="off"
       />
       <TextField
-        className={classes.textFieldStyles}
+        className={classes.root}
         label="На что потрачено"
-        id="outlined-size-small"
+        id="comment-text-field"
         value={comment}
         onChange={handleChangeComment}
         variant="outlined"
@@ -104,31 +102,30 @@ const ComponentTextFields = ({ handleShowTextFields, showTextFields }) => {
       />
       <FormControl className={classes.formControl}>
         <InputLabel htmlFor="age-native-simple">Выберите категорию</InputLabel>
-        <Select native value={category} onChange={handleChangeCategory}>
+        <Select native value={categoryId} onChange={handleChangeCategory}>
           <option aria-label="Выберите категорию" value="" />
           {categories.map((category) => (
-            <option value={category.text} key={category.id}>
+            <option value={category.id} key={category.id}>
               {category.text}
             </option>
           ))}
         </Select>
       </FormControl>
-      <Button
-        className={classes.buttonStyles}
-        variant="contained"
-        color="primary"
-        onClick={handleAddExpense}
-      >
+      <Button variant="contained" color="primary" onClick={handleAddExpense}>
         Добавить
       </Button>
       <CancelIcon
-        disabled
+        className={classes.cancelIcon}
         onClick={handleShowTextFields}
         color="secondary"
-        className={classes.cancelIconStyles}
       />
-    </form>
+    </Box>
   );
+};
+
+ComponentTextFields.propTypes = {
+  handleShowTextFields: PropTypes.func.isRequired,
+  showTextFields: PropTypes.bool.isRequired,
 };
 
 export default ComponentTextFields;
