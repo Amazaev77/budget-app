@@ -13,9 +13,9 @@ import {
   Button,
   Box,
 } from "@material-ui/core";
-import PreloaderToTable from "../Expenses/PreloaderToTable";
 import Category from "./Category";
 import { addCategory } from "../../../redux/features/categories";
+import SkeletonBox from '../../SkeletonBox';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,8 +24,9 @@ const useStyles = makeStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.primary.dark,
     color: theme.palette.common.white,
-  },
+  }
 }));
+
 
 const Categories = () => {
   const dispatch = useDispatch();
@@ -52,10 +53,6 @@ const Categories = () => {
       handleAddCategory();
     }
   };
-
-  const preloader = new Array(3)
-    .fill()
-    .map((_, index) => <PreloaderToTable key={index} />);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
@@ -90,8 +87,16 @@ const Categories = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {loading && preloader}
-            {categories.map((category) => (
+            {loading && (
+              <TableRow>
+                <TableCell>
+                  <SkeletonBox />
+                  <SkeletonBox />
+                  <SkeletonBox />
+                </TableCell>
+              </TableRow>
+            )}
+            {!loading && categories.map((category) => (
               <Category key={category.id} category={category} />
             ))}
           </TableBody>
