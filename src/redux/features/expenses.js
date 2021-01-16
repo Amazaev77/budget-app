@@ -61,7 +61,7 @@ export default function reducer(state = initialState, action) {
 export const loadExpenses = () => {
   return (dispatch) => {
     dispatch({ type: "expenses/load/started" });
-    fetch("http://localhost:3010/expenses")
+    fetch("/expenses")
       .then((res) => res.json())
       .then((expense) =>
         dispatch({
@@ -75,7 +75,7 @@ export const loadExpenses = () => {
 export const addExpense = (categoryId, sum, comment, date) => {
   return (dispatch) => {
     dispatch({ type: "expense/add/started" });
-    fetch("http://localhost:3010/expenses", {
+    fetch("/expenses", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -105,7 +105,7 @@ export const deleteExpense = (id) => {
       payload: id,
     });
 
-    fetch(`http://localhost:3010/expenses/${id}`, {
+    fetch(`/expenses/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -124,7 +124,7 @@ export const copyExpense = (expense, date) => {
       type: "expense/copy/started",
       payload: expense.id,
     });
-    fetch("http://localhost:3010/expenses", {
+    fetch("/expenses", {
       method: "POST",
       headers: {
         Accept: "application/json",

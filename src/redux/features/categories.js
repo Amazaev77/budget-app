@@ -66,7 +66,7 @@ export const loadCategories = () => {
   return (dispatch) => {
     dispatch({ type: "categories/load/started" });
 
-    fetch("http://localhost:3010/categories")
+    fetch("/categories")
       .then((res) => res.json())
       .then((categories) => {
         dispatch({
@@ -80,7 +80,7 @@ export const loadCategories = () => {
 export const addCategory = (category) => {
   return (dispatch) => {
     dispatch({ type: "category/add/started" });
-    fetch("http://localhost:3010/categories", {
+    fetch("/categories", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -107,7 +107,7 @@ export const editCategory = (id, category) => {
   return (dispatch) => {
     dispatch({ type: "category/edit/started" });
 
-    fetch(`http://localhost:3010/categories/${id}`, {
+    fetch(`/categories/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -130,7 +130,7 @@ export const deleteCategory = (id) => {
   return (dispatch) => {
     dispatch({ type: "category/delete/started" });
 
-    fetch(`http://localhost:3010/categories/${id}`, {
+    fetch(`/categories/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

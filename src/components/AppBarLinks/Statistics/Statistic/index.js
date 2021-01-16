@@ -37,7 +37,7 @@ const Statistic = () => {
             return acc;
           }
 
-          if (category.id === expense.id) {
+          if (category.id === expense.categoryId) {
             return acc + expense.sum;
           }
           return acc;

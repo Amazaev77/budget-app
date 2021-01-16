@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Expense from "./Expense";
 import AddIcon from "@material-ui/icons/Add";
-import { loadExpenses } from "../../../redux/features/expenses";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import PreloaderToTable from "./PreloaderToTable";
 import ComponentTextFields from "./ComponentTextFields";
 import {
@@ -28,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Expenses = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   const expenses = useSelector((state) => state.expenses.items);
   const loading = useSelector((state) => state.expenses.loading);
@@ -38,10 +36,6 @@ const Expenses = () => {
   const preloader = new Array(3)
     .fill()
     .map((_, index) => <PreloaderToTable key={index} />);
-
-  useEffect(() => {
-    dispatch(loadExpenses());
-  }, [dispatch]);
 
   const handleShowTextFields = () => {
     setShowTextFields(!showTextFields);
