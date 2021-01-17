@@ -1,21 +1,21 @@
 import React from "react";
-import Skeleton from "react-loading-skeleton";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
+import Skeleton from '@material-ui/lab/Skeleton';
 import { TableCell, TableRow, IconButton } from "@material-ui/core";
 
 const PreloaderToTable = () => {
   return (
     <TableRow>
       <TableCell>
-        <Skeleton width={132} height={20} />
+        <Skeleton width={132} height={30} />
       </TableCell>
       <TableCell>
-        <Skeleton width={132} height={20} />
+        <Skeleton width={132} height={30} />
       </TableCell>
       <TableCell>
-        <Skeleton width={132} height={20} />
+        <Skeleton width={132} height={30} />
       </TableCell>
       <TableCell>
         <div>

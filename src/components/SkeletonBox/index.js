@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     height: 28,
     marginBottom: theme.spacing(1),
     marginTop: theme.spacing(1),
-    paddingLeft: theme.spacing(2),
+    paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
     display: 'flex',
     justifyContent: 'space-between',

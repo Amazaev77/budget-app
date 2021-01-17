@@ -20,11 +20,12 @@ import SkeletonBox from '../../SkeletonBox';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 370,
+    overflowX: 'hidden'
   },
   head: {
     backgroundColor: theme.palette.primary.dark,
     color: theme.palette.common.white,
-  }
+  },
 }));
 
 
@@ -78,7 +79,7 @@ const Categories = () => {
         </Button>
       </Box>
       <TableContainer component={Paper} className={classes.root} elevation={3}>
-        <Table size="small" aria-label="customized table">
+        <Table size="small" aria-label="customized table" className={classes.table}>
           <TableHead>
             <TableRow>
               <TableCell align="center" className={classes.head}>
@@ -92,7 +93,9 @@ const Categories = () => {
                 <TableCell>
                   <SkeletonBox />
                   <SkeletonBox />
-                  <SkeletonBox />
+                </TableCell>
+                <TableCell>
+                  ыыыыфввввв
                 </TableCell>
               </TableRow>
             )}
