@@ -17,7 +17,7 @@ export default function reducer(state = initialState, action) {
     case "expenses/load/succeed":
       return {
         ...state,
-        loading: true,
+        loading: false,
         items: action.payload,
       };
     case "expense/add/started":
