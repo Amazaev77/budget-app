@@ -9,7 +9,9 @@
   - Что использовал:
       - React, Redux
       - redux-thunk
-      - Redux-logger
+      - redux-logger
       - moment js
       - json-server
       - material-ui
+
+### Команды для запуска: `git clone` > `npm install` > `npm run dev` .
