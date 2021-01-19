@@ -14,4 +14,4 @@
       - json-server
       - material-ui
 
-### Команды для запуска: `git clone` > `npm install` > `npm run dev` .
+### Команда для запуска: `npm run dev` .
