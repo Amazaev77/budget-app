@@ -13,8 +13,10 @@ const useStyles = makeStyles({
 });
 
 const App = () => {
-  const classes = useStyles();
   const [darkMode, setDarkMode] = useState(false);
+
+  const classes = useStyles();
+
   const theme = themeCreator(darkMode);
 
   const handleSwitchTheme = () => {

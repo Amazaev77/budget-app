@@ -7,6 +7,7 @@ import Categories from "./Categories";
 import { loadCategories } from "../../redux/features/categories";
 import { Route, NavLink } from "react-router-dom";
 import { loadExpenses } from "../../redux/features/expenses";
+import GitHubIcon from '@material-ui/icons/GitHub';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +29,14 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.primary.light,
     borderRadius: 4,
   },
+  GitHubIconLink: {
+    position: 'absolute',
+    top: 10,
+    left: 30
+  },
+  GitHubIcon: {
+    color: theme.palette.common.white
+  }
 }));
 
 export default function LabTabs() {
@@ -41,6 +50,12 @@ export default function LabTabs() {
 
   return (
     <>
+      <a
+        href="https://github.com/Amazaev77/budget-app"
+        className={classes.GitHubIconLink}
+      >
+        <GitHubIcon className={classes.GitHubIcon}/>
+      </a>
       <AppBar className={classes.root} position="static">
         <NavLink to="/" activeClassName={classes.navLink} exact>
           <Button className={classes.text}>Расходы</Button>

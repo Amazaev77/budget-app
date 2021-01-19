@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     right: 40,
     top: 10,
     color: theme.palette.common.white,
-    cursor: "pointer",
+    cursor: "pointer"
   },
 }))
 
