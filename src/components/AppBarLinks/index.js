@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   GitHubIconLink: {
     position: 'absolute',
     top: 10,
-    left: 30
+    right: 75
   },
   GitHubIcon: {
     color: theme.palette.common.white
