@@ -1,3 +1,12 @@
+import {
+  ADD_EXPENSE,
+  ADD_EXPENSE_STARTED,
+  ADD_EXPENSE_SUCCEEDED,
+  LOAD_EXPENSES,
+  LOAD_EXPENSES_STARTED,
+  LOAD_EXPENSES_SUCCEEDED
+} from './types'
+
 const initialState = {
   items: [],
   loading: false,
@@ -9,23 +18,23 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case "expenses/load/started":
+    case LOAD_EXPENSES_STARTED:
       return {
         ...state,
         loading: true,
       };
-    case "expenses/load/succeed":
+    case LOAD_EXPENSES_SUCCEEDED:
       return {
         ...state,
         loading: false,
         items: action.payload,
       };
-    case "expense/add/started":
+    case ADD_EXPENSE_STARTED:
       return {
         ...state,
         adding: true,
       };
-    case "expense/add/succeed":
+    case ADD_EXPENSE_SUCCEEDED:
       return {
         ...state,
         adding: false,
@@ -59,44 +68,52 @@ export default function reducer(state = initialState, action) {
 }
 
 export const loadExpenses = () => {
-  return (dispatch) => {
-    dispatch({ type: "expenses/load/started" });
-    fetch("/expenses")
-      .then((res) => res.json())
-      .then((expense) =>
-        dispatch({
-          type: "expenses/load/succeed",
-          payload: expense,
-        })
-      );
-  };
+  return {
+    type: LOAD_EXPENSES,
+    payload: {
+      api: "/expenses",
+      method: "GET"
+    }
+  }
+};
+
+export const showLoaderToExpenses = () => {
+  return { type: LOAD_EXPENSES_STARTED }
+}
+
+export const putExpenses = (data) => {
+  return {
+    type: LOAD_EXPENSES_SUCCEEDED,
+    payload: data
+  }
 };
 
 export const addExpense = (categoryId, sum, comment, date) => {
-  return (dispatch) => {
-    dispatch({ type: "expense/add/started" });
-    fetch("/expenses", {
+  return {
+    type: ADD_EXPENSE,
+    payload: {
+      api: "/expenses",
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+      body: {
         categoryId,
         sum,
         comment,
-        date,
-      }),
-    })
-      .then((res) => res.json())
-      .then((expense) => {
-        dispatch({
-          type: "expense/add/succeed",
-          payload: expense,
-        });
-      });
-  };
+        date
+      }
+    }
+  }
 };
+
+export const showLoaderToAddExpense = () => {
+  return { type: ADD_EXPENSE_STARTED }
+}
+
+export const putExpense = (payload) => {
+  return {
+    type: ADD_EXPENSE_SUCCEEDED,
+    payload
+  }
+}
 
 export const deleteExpense = (id) => {
   return (dispatch) => {
@@ -107,6 +124,10 @@ export const deleteExpense = (id) => {
 
     fetch(`/expenses/${id}`, {
       method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
     })
       .then((res) => res.json())
       .then(() => {
@@ -146,3 +167,28 @@ export const copyExpense = (expense, date) => {
       });
   };
 };
+
+
+// (dispatch) => {
+//   dispatch({ type: "expense/add/started" });
+//   fetch("/expenses", {
+//     method: "POST",
+//     headers: {
+//       Accept: "application/json",
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       categoryId,
+//       sum,
+//       comment,
+//       date,
+//     }),
+//   })
+//     .then((res) => res.json())
+//     .then((expense) => {
+//       dispatch({
+//         type: "expense/add/succeed",
+//         payload: expense,
+//       });
+//     });
+// };

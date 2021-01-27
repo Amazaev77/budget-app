@@ -25,7 +25,7 @@ const SkeletonBox = () => {
     <div className={classes.skeleton}>
       <Skeleton /> <Skeleton />
     </div>
-  )
+  );
 }
 
 export default SkeletonBox;

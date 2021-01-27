@@ -1,0 +1,15 @@
+export const LOAD_EXPENSES = 'load/expenses';
+export const LOAD_CATEGORIES = 'load/categories';
+export const LOAD_CATEGORIES_STARTED = 'load/categories/started';
+export const LOAD_CATEGORIES_SUCCEEDED = 'load/categories/succeeded';
+export const LOAD_EXPENSES_STARTED = 'load/expenses/started';
+export const LOAD_EXPENSES_SUCCEEDED = 'load/expenses/succeeded';
+export const ADD_EXPENSE = 'add/expense';
+export const ADD_EXPENSE_STARTED = 'add/expenses/started';
+export const ADD_EXPENSE_SUCCEEDED = 'add/expenses/succeeded';
+export const ADD_CATEGORY = 'add/category';
+export const ADD_CATEGORY_STARTED = 'add/category/started';
+export const ADD_CATEGORY_SUCCEEDED = 'add/category/succeeded';
+export const EDIT_CATEGORY = 'edit/category';
+export const EDIT_CATEGORY_STARTED = 'edit/category/started';
+export const EDIT_CATEGORY_SUCCEEDED = 'edit/category/started';

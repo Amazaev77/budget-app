@@ -1,3 +1,15 @@
+import {
+  ADD_CATEGORY,
+  ADD_CATEGORY_STARTED,
+  ADD_CATEGORY_SUCCEEDED,
+  EDIT_CATEGORY,
+  EDIT_CATEGORY_STARTED,
+  EDIT_CATEGORY_SUCCEEDED,
+  LOAD_CATEGORIES,
+  LOAD_CATEGORIES_STARTED,
+  LOAD_CATEGORIES_SUCCEEDED,
+} from "./types";
+
 const initialState = {
   items: [],
   loading: false,
@@ -8,34 +20,35 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case "categories/load/started":
+    case LOAD_CATEGORIES_STARTED:
       return {
         ...state,
         loading: true,
       };
-    case "categories/load/succeed":
+    case LOAD_CATEGORIES_SUCCEEDED:
       return {
         ...state,
         loading: false,
         items: action.payload,
       };
-    case "category/add/started":
+    case ADD_CATEGORY_STARTED:
       return {
         ...state,
         adding: true,
       };
-    case "category/add/succeed":
+    case ADD_CATEGORY_SUCCEEDED:
       return {
         ...state,
         adding: false,
         items: [...state.items, action.payload],
       };
-    case "category/edit/started":
+    case EDIT_CATEGORY_STARTED:
       return {
         ...state,
         editing: true,
       };
-    case "category/edit/succeed":
+    case EDIT_CATEGORY_SUCCEEDED:
+      console.log('EDIT_CATEGORY_SUCCEEDED');
       return {
         ...state,
         editing: false,
@@ -43,7 +56,6 @@ export default function reducer(state = initialState, action) {
           if (item.id === action.payload.id) {
             return action.payload;
           }
-
           return item;
         }),
       };
@@ -63,73 +75,71 @@ export default function reducer(state = initialState, action) {
 }
 
 export const loadCategories = () => {
-  return (dispatch) => {
-    dispatch({ type: "categories/load/started" });
+  return {
+    type: LOAD_CATEGORIES,
+    payload: {
+      api: "/categories",
+      method: "GET"
+    }
+  }
+};
 
-    fetch("/categories")
-      .then((res) => res.json())
-      .then((categories) => {
-        dispatch({
-          type: "categories/load/succeed",
-          payload: categories,
-        });
-      });
-  };
+export const showLoaderToCategories = () => {
+  return { type: LOAD_CATEGORIES_STARTED }
+}
+
+export const putCategories = (data) => {
+  return {
+    type: LOAD_CATEGORIES_SUCCEEDED,
+    payload: data
+  }
 };
 
 export const addCategory = (category) => {
-  return (dispatch) => {
-    dispatch({ type: "category/add/started" });
-    fetch("/categories", {
+  return {
+    type: ADD_CATEGORY,
+    payload: {
+      api: "/categories",
       method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        text: category,
-      }),
-    })
-      .then((res) => res.json())
-      .then((expense) => {
-        dispatch({
-          type: "category/add/succeed",
-          payload: {
-            id: expense.id,
-            text: category,
-          },
-        });
-      });
-  };
+      body: { text: category }
+    }
+  }
 };
+
+export const showLoaderToAddCategory = () => {
+  return { type: ADD_CATEGORY_STARTED };
+}
+
+export const putCategory = (payload) => {
+  return {
+    type: ADD_CATEGORY_SUCCEEDED,
+    payload
+  }
+}
 
 export const editCategory = (id, category) => {
-  return (dispatch) => {
-    dispatch({ type: "category/edit/started" });
-
-    fetch(`/categories/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        text: category,
-      }),
-    })
-      .then((res) => res.json())
-      .then((category) => {
-        dispatch({
-          type: "category/edit/succeed",
-          payload: category,
-        });
-      });
+  return {
+    type: EDIT_CATEGORY,
+    api: `/categories/${id}`,
+    method: "PATCH",
+    body: { text: category }
   };
 };
+
+export const showLoaderToEditCategory = () => {
+  return { type: EDIT_CATEGORY_STARTED };
+}
+
+export const putEditedCategory = (payload) => {
+  return {
+    type: EDIT_CATEGORY_SUCCEEDED,
+    payload
+  }
+}
 
 export const deleteCategory = (id) => {
   return (dispatch) => {
     dispatch({ type: "category/delete/started" });
-
     fetch(`/categories/${id}`, {
       method: "DELETE",
     })
