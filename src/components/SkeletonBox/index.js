@@ -1,6 +1,6 @@
-import React from 'react';
-import Skeleton from '@material-ui/lab/Skeleton';
-import { makeStyles } from '@material-ui/core'
+import React from "react";
+import Skeleton from "@material-ui/lab/Skeleton";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   skeleton: {
@@ -10,12 +10,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
-    display: 'flex',
-    justifyContent: 'space-between',
+    display: "flex",
+    justifyContent: "space-between",
     "& span": {
       flexBasis: 150,
-    }
-  }
+    },
+  },
 }));
 
 const SkeletonBox = () => {
@@ -26,6 +26,6 @@ const SkeletonBox = () => {
       <Skeleton /> <Skeleton />
     </div>
   );
-}
+};
 
 export default SkeletonBox;

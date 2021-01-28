@@ -1,13 +1,22 @@
 import { call, put } from "redux-saga/effects";
 import {
   putCategories,
-  putCategory, putEditedCategory, showLoaderToAddCategory,
-  showLoaderToCategories, showLoaderToEditCategory,
-} from '../categories'
+  putCategory,
+  putEditedCategory,
+  putIdDeletedCategory,
+  showLoaderToAddCategory,
+  showLoaderToCategories,
+  showLoaderToDeleteCategory,
+  showLoaderToEditCategory,
+} from "../categories";
 import {
+  putCopiedExpense,
   putExpense,
   putExpenses,
+  putIdDeletedExpense,
   showLoaderToAddExpense,
+  showLoaderToCopyExpense,
+  showLoaderToDeleteExpense,
   showLoaderToExpenses,
 } from "../expenses";
 
@@ -16,15 +25,13 @@ const loadData = async (api, method, body) => {
     method,
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(body)
-  })
-    .then((res) => res.json())
+    body: JSON.stringify(body),
+  }).then((res) => res.json());
 
   return data;
-}
-
+};
 
 export function* workerLoadCategories({ payload }) {
   const { api, method } = payload;
@@ -66,7 +73,7 @@ export function* workerAddCategory({ payload }) {
   yield put(putCategory(data));
 }
 
-export function* workerEditCategory(payload) {
+export function* workerEditCategory({ payload }) {
   const { api, method, body } = payload;
 
   yield put(showLoaderToEditCategory());
@@ -74,4 +81,34 @@ export function* workerEditCategory(payload) {
   const data = yield call(loadData, api, method, body);
 
   yield put(putEditedCategory(data));
+}
+
+export function* workerDeleteCategory({ payload }) {
+  const { api, method, id } = payload;
+
+  yield put(showLoaderToDeleteCategory());
+
+  yield call(loadData, api, method);
+
+  yield put(putIdDeletedCategory(id));
+}
+
+export function* workerDeleteExpense({ payload }) {
+  const { api, method, id } = payload;
+
+  yield put(showLoaderToDeleteExpense());
+
+  yield call(loadData, api, method);
+
+  yield put(putIdDeletedExpense(id));
+}
+
+export function* workerCopyExpense({ payload }) {
+  const { api, method, body } = payload;
+
+  yield put(showLoaderToCopyExpense());
+
+  const data = yield call(loadData, api, method, body);
+
+  yield put(putCopiedExpense(data));
 }

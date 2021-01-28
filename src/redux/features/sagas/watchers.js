@@ -2,17 +2,23 @@ import { takeEvery } from "redux-saga/effects";
 import {
   ADD_CATEGORY,
   ADD_EXPENSE,
+  DELETE_CATEGORY,
+  DELETE_EXPENSE,
   EDIT_CATEGORY,
   LOAD_CATEGORIES,
   LOAD_EXPENSES,
+  COPY_EXPENSE,
 } from "../types";
 import {
   workerLoadCategories,
   workerLoadExpenses,
   workerAddExpense,
   workerAddCategory,
-  workerEditCategory
-} from './workers';
+  workerEditCategory,
+  workerDeleteCategory,
+  workerDeleteExpense,
+  workerCopyExpense,
+} from "./workers";
 
 export function* watchLoadCategories() {
   yield takeEvery(LOAD_CATEGORIES, workerLoadCategories);
@@ -32,4 +38,16 @@ export function* watchAddCategory() {
 
 export function* watchEditCategory() {
   yield takeEvery(EDIT_CATEGORY, workerEditCategory);
+}
+
+export function* watchDeleteCategory() {
+  yield takeEvery(DELETE_CATEGORY, workerDeleteCategory);
+}
+
+export function* watchDeleteExpense() {
+  yield takeEvery(DELETE_EXPENSE, workerDeleteExpense);
+}
+
+export function* watchCopyExpense() {
+  yield takeEvery(COPY_EXPENSE, workerCopyExpense);
 }

@@ -1,4 +1,4 @@
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
 const themeCreator = (darkMode) => {
   let options;
@@ -17,7 +17,7 @@ const themeCreator = (darkMode) => {
           main: "#fff",
         },
       },
-    }
+    };
   }
 
   if (!darkMode) {
@@ -34,11 +34,10 @@ const themeCreator = (darkMode) => {
           main: "#4caf50",
         },
       },
-    }
+    };
   }
 
   return createMuiTheme(options);
-}
+};
 
 export default themeCreator;
-

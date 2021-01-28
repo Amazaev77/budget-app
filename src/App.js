@@ -3,13 +3,13 @@ import { Container, CssBaseline, makeStyles } from "@material-ui/core";
 import AppBarLinks from "./components/AppBarLinks";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import { BrowserRouter as Router } from "react-router-dom";
-import ThemeSwitcher from './components/ThemeSwitcher'
-import themeCreator from './utils/utils'
+import ThemeSwitcher from "./components/ThemeSwitcher";
+import themeCreator from "./utils/utils";
 
 const useStyles = makeStyles({
   container: {
     position: "relative",
-  }
+  },
 });
 
 const App = () => {

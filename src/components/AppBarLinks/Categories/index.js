@@ -15,19 +15,18 @@ import {
 } from "@material-ui/core";
 import Category from "./Category";
 import { addCategory } from "../../../redux/features/categories";
-import SkeletonBox from '../../SkeletonBox';
+import SkeletonBox from "../../SkeletonBox";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 370,
-    overflowX: 'hidden'
+    overflowX: "hidden",
   },
   head: {
     backgroundColor: theme.palette.primary.dark,
     color: theme.palette.common.white,
   },
 }));
-
 
 const Categories = () => {
   const dispatch = useDispatch();
@@ -79,7 +78,11 @@ const Categories = () => {
         </Button>
       </Box>
       <TableContainer component={Paper} className={classes.root} elevation={3}>
-        <Table size="small" aria-label="customized table" className={classes.table}>
+        <Table
+          size="small"
+          aria-label="customized table"
+          className={classes.table}
+        >
           <TableHead>
             <TableRow>
               <TableCell align="center" className={classes.head}>
@@ -94,14 +97,13 @@ const Categories = () => {
                   <SkeletonBox />
                   <SkeletonBox />
                 </TableCell>
-                <TableCell>
-                  ыыыыфввввв
-                </TableCell>
+                <TableCell>ыыыыфввввв</TableCell>
               </TableRow>
             )}
-            {!loading && categories.map((category) => (
-              <Category key={category.id} category={category} />
-            ))}
+            {!loading &&
+              categories.map((category) => (
+                <Category key={category.id} category={category} />
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

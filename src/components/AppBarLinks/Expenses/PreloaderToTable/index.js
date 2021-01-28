@@ -2,7 +2,7 @@ import React from "react";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
-import Skeleton from '@material-ui/lab/Skeleton';
+import Skeleton from "@material-ui/lab/Skeleton";
 import { TableCell, TableRow, IconButton } from "@material-ui/core";
 
 const PreloaderToTable = () => {
