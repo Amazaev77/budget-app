@@ -8,7 +8,7 @@
   
   - Что использовал:
       - React, Redux
-      - redux-thunk
+      - redux-saga
       - redux-logger
       - moment js
       - json-server
